@@ -1,9 +1,12 @@
-FROM alpine:latest
+FROM debian:bullseye-slim
 
-RUN apk add --no-cache shadowsocks-libev
+RUN apt-get update && \
+    apt-get install -y shadowsocks-libev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ENV PASSWORD=your_password
 ENV PORT=8388
 ENV METHOD=aes-256-gcm
 
 CMD ss-server -s 0.0.0.0 -p $PORT -k $PASSWORD -m $METHOD
+
